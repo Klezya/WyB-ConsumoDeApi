@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",  # Make sure you also have Django REST framework installed
     "api",  # Add this line to include your app
-    'corsheaders',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
