@@ -1,0 +1,28 @@
+<h2>Gestión de Clientes, Comerciales y Pedidos</h2>
+
+<!-- Formulario para crear un cliente -->
+<form [formGroup]="clientForm" (ngSubmit)="crearCliente()">
+  <h3>Crear Cliente</h3>
+  <!-- Campos para cliente -->
+  <button mat-raised-button color="primary" type="submit">Crear Cliente</button>
+</form>
+
+<!-- Formulario para crear un comercial -->
+<form [formGroup]="commercialForm" (ngSubmit)="crearComercial()">
+  <h3>Crear Comercial</h3>
+  <!-- Campos para comercial -->
+  <button mat-raised-button color="primary" type="submit">Crear Comercial</button>
+</form>
+
+<!-- Formulario para crear un pedido -->
+<form [formGroup]="orderForm" (ngSubmit)="crearPedido()">
+  <h3>Crear Pedido</h3>
+  <!-- Campos para pedido -->
+  <button mat-raised-button color="primary" type="submit">Crear Pedido</button>
+</form>
+
+<!-- Tabla para mostrar los pedidos -->
+<h3>Listado de Pedidos</h3>
+<table mat-table [dataSource]="orders" class="mat-elevation-z8">
+  <!-- Columnas de la tabla -->
+</table>
