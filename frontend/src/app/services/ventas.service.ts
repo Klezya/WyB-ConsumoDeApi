@@ -1,19 +1,36 @@
 // src/app/services/ventas.service.ts
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import axios from 'axios';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VentasService {
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl = 'http://127.0.0.1:8000/api/clientes';
+  
+  constructor(private http: HttpClient = inject(HttpClient)) {}
 
+  public getData(): Observable<any> {
+    return this.http.get<any>(this.apiUrl);
+  }
+  
+  
+  /*
   // Obtener clientes
   async obtenerClientes() {
-    const response = await axios.get(`${this.apiUrl}/clientes`);
-    return response.data;
-  }
+    try {
+      const response = await axios.get(`${this.apiUrl}/clientes`);
+      console.log(response)
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener clientes:", error);
+      throw error;
+    }
+  } */
 
+  /*
   // Obtener comerciales
   async obtenerComerciales() {
     const response = await axios.get(`${this.apiUrl}/comerciales`);
@@ -42,5 +59,5 @@ export class VentasService {
   async crearPedido(pedidoData: any) {
     const response = await axios.post(`${this.apiUrl}/pedidos/`, pedidoData);
     return response.data;
-  }
+  }*/
 }

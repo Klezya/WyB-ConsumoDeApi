@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { VentasService } from '../services/ventas.service';
+import { VentasTestService } from '../services/ventastest.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -19,11 +21,33 @@ import { VentasService } from '../services/ventas.service';
     MatFormFieldModule,
     MatInputModule
   ],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  template: '',
+  //templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+  providers: [HttpClient]
 })
 export class HomeComponent implements OnInit {
-  private fb = inject(FormBuilder);
+  
+  //private ventasService = inject(VentasService);  
+  private data: any[] = [];
+
+  constructor(private ventasService: VentasService) {}
+
+  ngOnInit(): void {
+    this.cargarData()
+  }
+  
+  cargarData(){
+    this.ventasService.getData().subscribe( data => {
+      this.data = data;
+      console.log(this.data);
+    })
+  }
+  
+  
+  
+  
+  /*private fb = inject(FormBuilder);
   private ventasService = inject(VentasService);
   
   clientForm: FormGroup;
@@ -65,21 +89,28 @@ export class HomeComponent implements OnInit {
 
   // Cargar todos los datos al inicio
   async cargarDatosIniciales() {
-    await this.cargarClientes();
-    await this.cargarComerciales();
-    await this.cargarPedidos();
+    try {
+      await Promise.all([
+        this.cargarClientes(),
+        //this.cargarComerciales(),
+        //this.cargarPedidos()
+      ]);
+    } catch (error) {
+      console.log('Error al cargar datos: ', error)
+      alert('Error al cargar datos iniciales');
+    }
   }
 
   // Crear cliente
   async crearCliente() {
     if (this.clientForm.valid) {
       try {
-        await this.ventasService.crearCliente(this.clientForm.value);
-        alert('Cliente creado con éxito');
-        this.clientForm.reset();
-        await this.cargarClientes(); // Recargar lista de clientes
+        //await this.ventasService.crearCliente(this.clientForm.value);
+        //alert('Cliente creado con éxito');
+        //this.clientForm.reset();
+        //await this.cargarClientes(); // Recargar lista de clientes
       } catch (error) {
-        alert('Error al crear cliente');
+        //alert('Error al crear cliente');
       }
     }
   }
@@ -88,12 +119,12 @@ export class HomeComponent implements OnInit {
   async crearComercial() {
     if (this.commercialForm.valid) {
       try {
-        await this.ventasService.crearComercial(this.commercialForm.value);
-        alert('Comercial creado con éxito');
-        this.commercialForm.reset();
-        await this.cargarComerciales(); // Recargar lista de comerciales
+        //await this.ventasService.crearComercial(this.commercialForm.value);
+        //alert('Comercial creado con éxito');
+        //this.commercialForm.reset();
+        //await this.cargarComerciales(); // Recargar lista de comerciales
       } catch (error) {
-        alert('Error al crear comercial');
+        //alert('Error al crear comercial');
       }
     }
   }
@@ -102,12 +133,12 @@ export class HomeComponent implements OnInit {
   async crearPedido() {
     if (this.orderForm.valid) {
       try {
-        await this.ventasService.crearPedido(this.orderForm.value);
-        alert('Pedido creado con éxito');
-        this.orderForm.reset();
-        await this.cargarPedidos(); // Recargar lista de pedidos
+        //await this.ventasService.crearPedido(this.orderForm.value);
+        //alert('Pedido creado con éxito');
+        //this.orderForm.reset();
+        //await this.cargarPedidos(); // Recargar lista de pedidos
       } catch (error) {
-        alert('Error al crear pedido');
+        //alert('Error al crear pedido');
       }
     }
   }
@@ -116,26 +147,32 @@ export class HomeComponent implements OnInit {
   async cargarClientes() {
     try {
       this.clients = await this.ventasService.obtenerClientes();
+      console.log(this.clients)
     } catch (error) {
-      alert('Error al cargar clientes');
+      console.log('Error clientes: ', error)
+      //alert('Error al cargar clientes');
     }
   }
 
   // Cargar comerciales
   async cargarComerciales() {
     try {
-      this.commercials = await this.ventasService.obtenerComerciales();
+      //this.commercials = await this.ventasService.obtenerComerciales();
+      console.log(this.commercials)
     } catch (error) {
-      alert('Error al cargar comerciales');
+      console.log('Error comerciales: ', error)
+      //alert('Error al cargar comerciales');
     }
   }
 
   // Cargar pedidos
   async cargarPedidos() {
     try {
-      this.orders = await this.ventasService.obtenerPedidos();
+      //this.orders = await this.ventasService.obtenerPedidos();
+      console.log(this.orders)
     } catch (error) {
-      alert('Error al cargar pedidos');
+      console.log('Error ordenes: ', error)
+      //alert('Error al cargar pedidos');
     }
-  }
+  }*/
 }
