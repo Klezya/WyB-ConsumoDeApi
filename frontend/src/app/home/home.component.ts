@@ -13,7 +13,7 @@ import { VentasService } from '../services/ventas.service';
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule, // <-- Agregado aquí
+    ReactiveFormsModule,
     MatTableModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -31,7 +31,9 @@ export class HomeComponent implements OnInit {
   orderForm: FormGroup;
 
   displayedColumns: string[] = ['id', 'clientName', 'commercialName', 'total', 'fecha'];
-  orders = [];
+  orders: any[] = [];
+  clients: any[] = [];
+  commercials: any[] = [];
 
   constructor() {
     this.clientForm = this.fb.group({
@@ -39,65 +41,96 @@ export class HomeComponent implements OnInit {
       apellido1: ['', Validators.required],
       apellido2: ['', Validators.required],
       ciudad: ['', Validators.required],
-      categoria: ['', Validators.required],
+      categoria: [0, Validators.required],
     });
 
     this.commercialForm = this.fb.group({
       nombre: ['', Validators.required],
       apellido1: ['', Validators.required],
       apellido2: ['', Validators.required],
-      comision: ['', Validators.required],
+      comision: [0, Validators.required],
     });
 
     this.orderForm = this.fb.group({
-      id_cliente: ['', Validators.required],
-      id_comercial: ['', Validators.required],
+      cliente: ['', Validators.required],
+      comercial: ['', Validators.required],
       total: [0, [Validators.required, Validators.min(0)]],
       fecha: ['', Validators.required],
     });
   }
 
-  ngOnInit() {
-    this.cargarPedidos();
+  async ngOnInit() {
+    await this.cargarDatosIniciales();
   }
 
+  // Cargar todos los datos al inicio
+  async cargarDatosIniciales() {
+    await this.cargarClientes();
+    await this.cargarComerciales();
+    await this.cargarPedidos();
+  }
+
+  // Crear cliente
   async crearCliente() {
     if (this.clientForm.valid) {
       try {
         await this.ventasService.crearCliente(this.clientForm.value);
         alert('Cliente creado con éxito');
         this.clientForm.reset();
+        await this.cargarClientes(); // Recargar lista de clientes
       } catch (error) {
         alert('Error al crear cliente');
       }
     }
   }
 
+  // Crear comercial
   async crearComercial() {
     if (this.commercialForm.valid) {
       try {
         await this.ventasService.crearComercial(this.commercialForm.value);
         alert('Comercial creado con éxito');
         this.commercialForm.reset();
+        await this.cargarComerciales(); // Recargar lista de comerciales
       } catch (error) {
         alert('Error al crear comercial');
       }
     }
   }
 
+  // Crear pedido
   async crearPedido() {
     if (this.orderForm.valid) {
       try {
         await this.ventasService.crearPedido(this.orderForm.value);
         alert('Pedido creado con éxito');
         this.orderForm.reset();
-        this.cargarPedidos();
+        await this.cargarPedidos(); // Recargar lista de pedidos
       } catch (error) {
         alert('Error al crear pedido');
       }
     }
   }
 
+  // Cargar clientes
+  async cargarClientes() {
+    try {
+      this.clients = await this.ventasService.obtenerClientes();
+    } catch (error) {
+      alert('Error al cargar clientes');
+    }
+  }
+
+  // Cargar comerciales
+  async cargarComerciales() {
+    try {
+      this.commercials = await this.ventasService.obtenerComerciales();
+    } catch (error) {
+      alert('Error al cargar comerciales');
+    }
+  }
+
+  // Cargar pedidos
   async cargarPedidos() {
     try {
       this.orders = await this.ventasService.obtenerPedidos();

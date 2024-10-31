@@ -6,47 +6,41 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class VentasService {
-  private apiUrl = 'http://localhost:8000/api'; // Cambia la URL según tu configuración de Django
+  private apiUrl = 'http://127.0.0.1:8000/api';
 
-  constructor() {}
-
-  async crearCliente(clienteData: any) {
-    try {
-      const response = await axios.post(`${this.apiUrl}/cliente/`, clienteData);
-      return response.data;
-    } catch (error) {
-      console.error('Error creando cliente', error);
-      throw error;
-    }
+  // Obtener clientes
+  async obtenerClientes() {
+    const response = await axios.get(`${this.apiUrl}/clientes`);
+    return response.data;
   }
 
-  async crearComercial(comercialData: any) {
-    try {
-      const response = await axios.post(`${this.apiUrl}/comercial/`, comercialData);
-      return response.data;
-    } catch (error) {
-      console.error('Error creando comercial', error);
-      throw error;
-    }
+  // Obtener comerciales
+  async obtenerComerciales() {
+    const response = await axios.get(`${this.apiUrl}/comerciales`);
+    return response.data;
   }
 
-  async crearPedido(pedidoData: any) {
-    try {
-      const response = await axios.post(`${this.apiUrl}/pedido/`, pedidoData);
-      return response.data;
-    } catch (error) {
-      console.error('Error creando pedido', error);
-      throw error;
-    }
-  }
-
+  // Obtener pedidos
   async obtenerPedidos() {
-    try {
-      const response = await axios.get(`${this.apiUrl}/pedido/`);
-      return response.data;
-    } catch (error) {
-      console.error('Error obteniendo pedidos', error);
-      throw error;
-    }
+    const response = await axios.get(`${this.apiUrl}/pedidos`);
+    return response.data;
+  }
+
+  // Crear cliente
+  async crearCliente(clienteData: any) {
+    const response = await axios.post(`${this.apiUrl}/clientes/`, clienteData);
+    return response.data;
+  }
+
+  // Crear comercial
+  async crearComercial(comercialData: any) {
+    const response = await axios.post(`${this.apiUrl}/comerciales/`, comercialData);
+    return response.data;
+  }
+
+  // Crear pedido
+  async crearPedido(pedidoData: any) {
+    const response = await axios.post(`${this.apiUrl}/pedidos/`, pedidoData);
+    return response.data;
   }
 }

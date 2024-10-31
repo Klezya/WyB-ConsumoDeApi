@@ -1,28 +1,49 @@
-<h2>Gestión de Clientes, Comerciales y Pedidos</h2>
-
-<!-- Formulario para crear un cliente -->
+<!-- src/app/home/home.component.html -->
+<h2>Crear Cliente</h2>
 <form [formGroup]="clientForm" (ngSubmit)="crearCliente()">
-  <h3>Crear Cliente</h3>
-  <!-- Campos para cliente -->
-  <button mat-raised-button color="primary" type="submit">Crear Cliente</button>
+  <!-- Campos para crear cliente -->
+  <input formControlName="nombre" placeholder="Nombre" />
+  <input formControlName="apellido1" placeholder="Apellido 1" />
+  <input formControlName="apellido2" placeholder="Apellido 2" />
+  <input formControlName="ciudad" placeholder="Ciudad" />
+  <input formControlName="categoria" placeholder="Categoría" type="number" />
+  <button type="submit">Crear Cliente</button>
 </form>
 
-<!-- Formulario para crear un comercial -->
+<h2>Crear Comercial</h2>
 <form [formGroup]="commercialForm" (ngSubmit)="crearComercial()">
-  <h3>Crear Comercial</h3>
-  <!-- Campos para comercial -->
-  <button mat-raised-button color="primary" type="submit">Crear Comercial</button>
+  <!-- Campos para crear comercial -->
+  <input formControlName="nombre" placeholder="Nombre" />
+  <input formControlName="apellido1" placeholder="Apellido 1" />
+  <input formControlName="apellido2" placeholder="Apellido 2" />
+  <input formControlName="comision" placeholder="Comisión" type="number" />
+  <button type="submit">Crear Comercial</button>
 </form>
 
-<!-- Formulario para crear un pedido -->
+<h2>Crear Pedido</h2>
 <form [formGroup]="orderForm" (ngSubmit)="crearPedido()">
-  <h3>Crear Pedido</h3>
-  <!-- Campos para pedido -->
-  <button mat-raised-button color="primary" type="submit">Crear Pedido</button>
+  <!-- Campos para crear pedido -->
+  <select formControlName="cliente">
+    <option *ngFor="let client of clients" [value]="client.id">{{ client.nombre }} {{ client.apellido1 }}</option>
+  </select>
+  <select formControlName="comercial">
+    <option *ngFor="let commercial of commercials" [value]="commercial.id">{{ commercial.nombre }} {{ commercial.apellido1 }}</option>
+  </select>
+  <input formControlName="total" placeholder="Total" type="number" />
+  <input formControlName="fecha" placeholder="Fecha" type="date" />
+  <button type="submit">Crear Pedido</button>
 </form>
 
-<!-- Tabla para mostrar los pedidos -->
-<h3>Listado de Pedidos</h3>
+<h2>Listado de Pedidos</h2>
 <table mat-table [dataSource]="orders" class="mat-elevation-z8">
-  <!-- Columnas de la tabla -->
-</table>
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let order"> {{ order.id }} </td>
+  </ng-container>
+  <ng-container matColumnDef="clientName">
+    <th mat-header-cell *matHeaderCellDef> Cliente </th>
+    <td mat-cell *matCellDef="let order"> {{ order.cliente }} </td>
+  </ng-container>
+  <ng-container matColumnDef="commercialName">
+    <th mat-header-cell *matHeaderCellDef> Comercial </th>
+    <td mat-cell *matCellDef="let order"> {{ order.comercial
