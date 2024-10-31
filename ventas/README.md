@@ -2,15 +2,13 @@
 
 ## Reemplazamos base de datos con "Supabase" en la nube
 
-**1. Instalar manejador de base de datos Postgres:**
-
-    ```bash
+1.  **Instalar manejador de base de datos Postgres:**
+```bash
     pip install psycopg2-binary
-    ```
+```
 
-**2. reemplazar constante DATABASES en 'settings.py':**
-
-    ```bash
+2.  **reemplazar constante DATABASES en 'settings.py':**
+```bash
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -21,19 +19,18 @@
             'PORT': '6543',
         }
     }
-    ```
+```
 
 ## Configuramos CORS
 
 **1. Instalar 'django-cors-headers':**
-
-    ```bash
+```bash
     python -m pip install django-cors-headers
-    ```
+```
 
 **2. Aplicar las configuraciones a 'settings.py':**
 
-    ```bash
+```bash
     INSTALLED_APPS = [
         ...,
         "corsheaders",
@@ -66,5 +63,5 @@
         "x-csrftoken",
         "x-requested-with",
     )
-    ```
+```
 
