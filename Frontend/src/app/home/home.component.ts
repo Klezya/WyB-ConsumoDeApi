@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { VentasService } from '../services/ventas.service';
+import axios from 'axios';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
   orders: any[] = [];
   clients: any[] = [];
   commercials: any[] = [];
+  errorMessage: string | null = null; // Para manejar mensajes de error
 
   constructor() {
     this.clientForm = this.fb.group({
@@ -74,12 +76,21 @@ export class HomeComponent implements OnInit {
   async crearCliente() {
     if (this.clientForm.valid) {
       try {
-        await this.ventasService.crearCliente(this.clientForm.value);
+        // Obtener solo los datos necesarios
+        const clienteData = {
+          nombre: this.clientForm.value.nombre,
+          apellido1: this.clientForm.value.apellido1,
+          apellido2: this.clientForm.value.apellido2,
+          ciudad: this.clientForm.value.ciudad,
+          categoria: this.clientForm.value.categoria
+        };
+        
+        await this.ventasService.crearCliente(clienteData);
         alert('Cliente creado con éxito');
         this.clientForm.reset();
         await this.cargarClientes(); // Recargar lista de clientes
       } catch (error) {
-        alert('Error al crear cliente');
+        this.handleError(error);
       }
     }
   }
@@ -88,12 +99,20 @@ export class HomeComponent implements OnInit {
   async crearComercial() {
     if (this.commercialForm.valid) {
       try {
-        await this.ventasService.crearComercial(this.commercialForm.value);
+        // Obtener solo los datos necesarios
+        const comercialData = {
+          nombre: this.commercialForm.value.nombre,
+          apellido1: this.commercialForm.value.apellido1,
+          apellido2: this.commercialForm.value.apellido2,
+          comision: this.commercialForm.value.comision,
+        };
+        
+        await this.ventasService.crearComercial(comercialData);
         alert('Comercial creado con éxito');
         this.commercialForm.reset();
         await this.cargarComerciales(); // Recargar lista de comerciales
       } catch (error) {
-        alert('Error al crear comercial');
+        this.handleError(error);
       }
     }
   }
@@ -102,13 +121,20 @@ export class HomeComponent implements OnInit {
   async crearPedido() {
     if (this.orderForm.valid) {
       try {
-        console.log(this.orderForm.value)
-        await this.ventasService.crearPedido(this.orderForm.value);
+        // Obtener solo los datos necesarios
+        const pedidoData = {
+          cliente: this.orderForm.value.cliente,
+          comercial: this.orderForm.value.comercial,
+          total: this.orderForm.value.total,
+          fecha: this.orderForm.value.fecha,
+        };
+        
+        await this.ventasService.crearPedido(pedidoData);
         alert('Pedido creado con éxito');
         this.orderForm.reset();
         await this.cargarPedidos(); // Recargar lista de pedidos
       } catch (error) {
-        alert('Error al crear pedido');
+        this.handleError(error);
       }
     }
   }
@@ -118,7 +144,7 @@ export class HomeComponent implements OnInit {
     try {
       this.clients = await this.ventasService.obtenerClientes();
     } catch (error) {
-      alert('Error al cargar clientes');
+      this.handleError(error);
     }
   }
 
@@ -127,7 +153,7 @@ export class HomeComponent implements OnInit {
     try {
       this.commercials = await this.ventasService.obtenerComerciales();
     } catch (error) {
-      alert('Error al cargar comerciales');
+      this.handleError(error);
     }
   }
 
@@ -136,7 +162,18 @@ export class HomeComponent implements OnInit {
     try {
       this.orders = await this.ventasService.obtenerPedidos();
     } catch (error) {
-      alert('Error al cargar pedidos');
+      this.handleError(error);
     }
+  }
+
+  // Manejar errores
+  private handleError(error: unknown) {
+    if (axios.isAxiosError(error)) {
+      this.errorMessage = error.response?.data?.message || 'Error inesperado';
+    } else {
+      this.errorMessage = 'Error inesperado';
+    }
+    console.error(this.errorMessage);
+    alert(this.errorMessage);
   }
 }
