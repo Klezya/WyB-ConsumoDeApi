@@ -1,0 +1,22 @@
+.card {
+    background-color: #f7f7f7a0; /* Light blue background */
+  }
+  
+  .card-body {
+    padding: 1.5rem; /* Add some padding for content */
+  }
+  
+  .card-title {
+    font-weight: bold; /* Make titles stand out */
+  }
+  
+  .mat-form-field {
+    margin-bottom: 1rem;
+    background-color: #ee0000; /* Color de fondo de la casilla */
+    color: #000000; /* Color del texto */
+  }
+  
+  .mat-raised-button {
+    background-color: #a29ba0; /* Blue accent color */
+    color: #fff; /* White text color */
+  }
