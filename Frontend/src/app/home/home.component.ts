@@ -102,6 +102,7 @@ export class HomeComponent implements OnInit {
   async crearPedido() {
     if (this.orderForm.valid) {
       try {
+        console.log(this.orderForm.value)
         await this.ventasService.crearPedido(this.orderForm.value);
         alert('Pedido creado con éxito');
         this.orderForm.reset();
