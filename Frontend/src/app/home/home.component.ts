@@ -92,7 +92,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.clientForm.reset();
         await this.cargarClientes();
       } catch (error) {
-        alert('Error al crear cliente');
+        this.errorMessage = 'Error al crear al cliente';
       }
     }
   }
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.commercialForm.reset();
         await this.cargarComerciales();
       } catch (error) {
-        alert('Error al crear comercial');
+        this.errorMessage = 'Error al cargar el comercial';
       }
     }
   }
@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         await this.cargarPedidos();
         this.updateCharts();
       } catch (error) {
-        alert('Error al crear pedido');
+        this.errorMessage = 'Error al cargar el pedido';
       }
     }
   }
@@ -128,7 +128,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     try {
       this.clients = await this.ventasService.obtenerClientes();
     } catch (error) {
-      alert('Error al cargar clientes');
+      this.errorMessage = 'Error al cargar los clientes';
     }
   }
 
@@ -136,7 +136,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     try {
       this.commercials = await this.ventasService.obtenerComerciales();
     } catch (error) {
-      alert('Error al cargar comerciales');
+      this.errorMessage = 'Error al cargar los comerciales';
     }
   }
 
@@ -144,7 +144,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     try {
       this.orders = await this.ventasService.obtenerPedidos();
     } catch (error) {
-      alert('Error al cargar pedidos');
+      this.errorMessage = 'Error al cargar los pedidos';
     }
   }
 
