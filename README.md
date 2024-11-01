@@ -1,7 +1,6 @@
-# Clonar el repositorio
+## Clonar el repositorio
 
 1.  **Clonar el repositorio en la maquina local**
-
     ```bash
         git clone https://github.com/Klezya/WyB-ConsumoDeApi
     ```
@@ -11,19 +10,9 @@
         cd WyB-ConsumoDeApi
     ```
 
-# Levantar los servidores
-
 ## Levantar API Django
 
-1.  **Levantar la Api**
-
-    ```bash
-        #Desde la carpeta del repositorio (WyB-ConsumoDeApi)
-        cd ventas
-        python3 manage.py runserver
-    ```
-
-2.  **En caso de no tener las siguientes librerias de python**
+1.  **Comprobar las librerias de python**
     ```bash
         Django                  5.1.2
         django-cors-headers     4.6.0
@@ -31,35 +20,75 @@
         psycopg2                2.9.10 #psycopg2 o psycopg2-binary
         psycopg2-binary         2.9.10 #psycopg2 o psycopg2-binary
     ```
-    1.  **Instalar librerias**
+2.  **En caso de no tener las librerias**
 
+    ```bash
+        pip install Django
+        pip install django-cors-headers
+        pip install djangorestframework
+    ```
+
+3.  **Instalar psycopg2**
+
+    Esta libreria es la encargada de compatibilizar la base de datos postgres con la api Django.
+
+    **Para windows:**
+
+    - Tener instalado [PostgreSQL](https://www.postgresql.org/download/windows/) V16.0 o superior 
+    - Tener instalado [Microsoft C++ Build Tools 2015](https://visualstudio.microsoft.com/es/visual-cpp-build-tools/) o superior
+
+    - Instalar psycopg2:
         ```bash
-            pip install Django
-            pip install django-cors-headers
-            pip install djangorestframework
+            pip install psycopg2
+        ```
+    **Para linux**
+
+    - Instalar el paquete ```libpq-dev```
+        ```bash
+            sudo apt update
+            sudo apt install libpq-dev
+        ```
+    - Instalar psycopg2:
+        ```bash
+            pip install psycopg2
         ```
 
-    2.  **Instalar psycopg2**
+    **Para macOS (No Testeado)**
 
-        Esta libreria es la encargada de compatibilizar la base de datos postgres con la api Django.
+    - Instalar ```postgresSQL```
+        ```bash
+            brew install postgresql
+        ```
 
-        **Para windows:**
+    - Instalar psycopg2:
+        ```bash
+            pip install psycopg2
+        ```
+    
+Con esto deberian estar todos los requisitos de la api cumplidos.
 
-        - Tener instalado [PostgreSQL](https://www.postgresql.org/download/windows/) V16.0 o superior 
-        - Tener instalado [Microsoft C++ Build Tools 2015](https://visualstudio.microsoft.com/es/visual-cpp-build-tools/) o superior
+4.  **Levantar la Api**
 
-        - Instalar psycopg2:
-            ```bash
-                pip install psycopg2
-            ```
-        **Para linux**
-
-        -
-
+    ```bash
+        #Desde la carpeta del repositorio (WyB-ConsumoDeApi)
+        cd ventas
+        python3 manage.py runserver
+    ```
 
 ## Levantar Front Angular
 
-1.  **Levantar Frontend Angular**
+
+1.  **Requisitos**:
+    - [Node.js](https://nodejs.org/en/download/package-manager) (versión 20.17 LTS)
+    - [Angular](https://angular.dev/installation) (versión 18.2)
+
+2.  **Verificar los requisitos**:
+    ```bash
+    node --version
+    ng --version
+    npm --version
+    ```
+3.  **Levantar Frontend Angular**
     ```bash
         #Dentro de la carpeta del repositorio (WyB-ConsumoDeApi)
         cd Frontend
@@ -69,7 +98,7 @@
 
 
 
----
+--------------------------------------------------------------
 
 # Modificaciones Realizadas en API
 
@@ -144,3 +173,12 @@ Para evitar conflictos con el CORS (Cross-Origin Resource Sharing) se instalo la
             "x-requested-with",
         )
     ```
+
+-------------------------------------------------------
+
+## Integrantes
+- **Nuñez Lara, Benjamin**
+- **Estay Valdivia, Vicente**
+- **Oyanedel Cortes, Luis**
+
+Universidad Andres Bello 2024
