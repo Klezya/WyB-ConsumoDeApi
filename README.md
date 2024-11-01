@@ -1,103 +1,146 @@
-# Iniciar el proyecto
-
-## Clonar el repositorio
+# Clonar el repositorio
 
 1.  **Clonar el repositorio en la maquina local**
-```bash
-    git clone https://github.com/Klezya/WyB-ConsumoDeApi
-```
+
+    ```bash
+        git clone https://github.com/Klezya/WyB-ConsumoDeApi
+    ```
 
 2.  **Entrar a la carpeta del repositorio**
-```bash
-    cd WyB-ConsumoDeApi
-```
-## Levantar los servidores
+    ```bash
+        cd WyB-ConsumoDeApi
+    ```
 
-3.  **Levantar la Api django**
-```bash
-    #Desde la carpeta del repositorio
-    cd ventas
-    python3 manage.py runserver
-```
+# Levantar los servidores
 
-4.  **En caso de no tener las siguientes librerias de python**
-```bash
-    Django                          5.1.2
-    django-cors-headers             4.6.0
-    djangorestframework             3.15.2
-    psycopg2                        2.9.10 #psycopg2 o psycopg2-binary 
-    psycopg2-binary                 2.9.10 #psycopg2 o psycopg2-binary
+## Levantar API Django
+
+1.  **Levantar la Api**
+
+    ```bash
+        #Desde la carpeta del repositorio (WyB-ConsumoDeApi)
+        cd ventas
+        python3 manage.py runserver
+    ```
+
+2.  **En caso de no tener las siguientes librerias de python**
+    ```bash
+        Django                  5.1.2
+        django-cors-headers     4.6.0
+        djangorestframework     3.15.2
+        psycopg2                2.9.10 #psycopg2 o psycopg2-binary
+        psycopg2-binary         2.9.10 #psycopg2 o psycopg2-binary
+    ```
+    1.  **Instalar librerias**
+
+        ```bash
+            pip install Django
+            pip install django-cors-headers
+            pip install djangorestframework
+        ```
+
+    2.  **Instalar psycopg2**
+
+        Esta libreria es la encargada de compatibilizar la base de datos postgres con la api Django.
+
+        **Para windows:**
+
+        - Tener instalado [PostgreSQL](https://www.postgresql.org/download/windows/) V16.0 o superior 
+        - Tener instalado [Microsoft C++ Build Tools 2015](https://visualstudio.microsoft.com/es/visual-cpp-build-tools/) o superior
+
+        - Instalar psycopg2:
+            ```bash
+                pip install psycopg2
+            ```
+        **Para linux**
+
+        -
 
 
-```
-    1. **
+## Levantar Front Angular
 
-***
+1.  **Levantar Frontend Angular**
+    ```bash
+        #Dentro de la carpeta del repositorio (WyB-ConsumoDeApi)
+        cd Frontend
+        npm install
+        ng serve
+    ```
+
+
+
+---
 
 # Modificaciones Realizadas en API
 
 ## Reemplazamos base de datos con "Supabase" en la nube
 
+Se decidio utilizar una base de datos postgres en la nube gratuita, como supabase, para tener un control y conexion centralizado sobre la base de datos, evitando problemas de conexion con la base de datos entre los integrantes del equipo.
+
 1.  **Instalar manejador de base de datos Postgres:**
-```bash
-    pip install psycopg2-binary
-```
+
+    ```bash
+        pip install psycopg2-binary
+    ```
 
 2.  **reemplazar constante DATABASES en 'settings.py':**
-```bash
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres.xorfosumkeqjdwcvfjhv',
-            'PASSWORD': 'z68epwtmCtFeZPvI',
-            'HOST': 'aws-0-sa-east-1.pooler.supabase.com',
-            'PORT': '6543',
+
+    ```bash
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'postgres',
+                'USER': 'postgres.xorfosumkeqjdwcvfjhv',
+                'PASSWORD': 'z68epwtmCtFeZPvI',
+                'HOST': 'aws-0-sa-east-1.pooler.supabase.com',
+                'PORT': '6543',
+            }
         }
-    }
-```
+    ```
 
 ## Configuramos CORS
 
-**1. Instalar 'django-cors-headers':**
-```bash
-    python -m pip install django-cors-headers
-```
+Para evitar conflictos con el CORS (Cross-Origin Resource Sharing) se instalo la libreria ```django-cors-headers``` y se aplicaron las siguientes modificaciones
 
-**2. Aplicar las configuraciones a 'settings.py':**
+1.  **Instalar 'django-cors-headers':**
 
-```bash
-    INSTALLED_APPS = [
-        ...,
-        "corsheaders",
-        ...,
-    ]
+    ```bash
+        python -m pip install django-cors-headers
+    ```
 
-    MIDDLEWARE = [
-        ...,
-        "corsheaders.middleware.CorsMiddleware",
-        "django.middleware.common.CommonMiddleware",
-        ...,
-    ]
+2.  **Aplicar las configuraciones a 'settings.py':**
 
-    CORS_ALLOW_ALL_ORIGINS = True
+    ```bash
+        INSTALLED_APPS = [
+            ...,
+            "corsheaders",
+            ...,
+        ]
 
-    CORS_ALLOW_METHODS = (
-        "DELETE",
-        "GET",
-        "OPTIONS",
-        "PATCH",
-        "POST",
-        "PUT",
-    )
+        MIDDLEWARE = [
+            ...,
+            "corsheaders.middleware.CorsMiddleware",
+            "django.middleware.common.CommonMiddleware",
+            ...,
+        ]
 
-    CORS_ALLOW_HEADERS = (
-        "accept",
-        "authorization",
-        "content-type",
-        "user-agent",
-        "x-csrftoken",
-        "x-requested-with",
-    )
-```
+        CORS_ALLOW_ALL_ORIGINS = True
 
+        CORS_ALLOW_METHODS = (
+            "DELETE",
+            "GET",
+            "OPTIONS",
+            "PATCH",
+            "POST",
+            "PUT",
+        )
+
+        CORS_ALLOW_HEADERS = (
+            "accept",
+            "authorization",
+            "content-type",
+            "user-agent",
+            "x-csrftoken",
+            "x-requested-with",
+        )
+    ```
