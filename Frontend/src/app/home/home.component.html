@@ -1,7 +1,13 @@
+<!-- src/app/home/home.component.html -->
 <div class="container my-4">
   <div class="row">
     <!-- Columna izquierda para crear registros -->
     <div class="col-md-4">
+      <!-- Mensaje de error -->
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
       <!-- Crear Cliente -->
       <div class="card mb-3">
         <div class="card-body text-center">
@@ -59,17 +65,21 @@
       </div>
 
       <!-- Crear Pedido -->
-      <div class="card mb-3">
+      <div class="card">
         <div class="card-body text-center">
           <h5 class="card-title">Crear Pedido</h5>
           <form [formGroup]="orderForm" (ngSubmit)="crearPedido()">
             <mat-form-field class="w-100">
               <mat-label>Cliente</mat-label>
-              <input matInput type="number" formControlName="cliente">
+              <mat-select formControlName="cliente">
+                <mat-option *ngFor="let client of clients" [value]="client.id">{{ client.nombre }}</mat-option>
+              </mat-select>
             </mat-form-field>
             <mat-form-field class="w-100">
               <mat-label>Comercial</mat-label>
-              <input matInput type="number" formControlName="comercial">
+              <mat-select formControlName="comercial">
+                <mat-option *ngFor="let commercial of commercials" [value]="commercial.id">{{ commercial.nombre }}</mat-option>
+              </mat-select>
             </mat-form-field>
             <mat-form-field class="w-100">
               <mat-label>Total</mat-label>
@@ -85,44 +95,52 @@
       </div>
     </div>
 
-    <!-- Columna derecha para el listado de pedidos -->
+    <!-- Columna derecha para mostrar los registros -->
     <div class="col-md-8">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title text-center">Listado de pedidos</h5>
-          <table mat-table [dataSource]="orders" class="mat-elevation-z8 w-100">
-            <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef> ID </th>
-              <td mat-cell *matCellDef="let order"> {{ order.id }} </td>
-            </ng-container>
+      <h3>Lista de Pedidos</h3>
+      <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let order">{{ order.id }}</td>
+        </ng-container>
 
-            <ng-container matColumnDef="clientName">
-              <th mat-header-cell *matHeaderCellDef> Cliente </th>
-              <td mat-cell *matCellDef="let order"> {{ order.cliente }} </td>
-            </ng-container>
+        <ng-container matColumnDef="clientName">
+          <th mat-header-cell *matHeaderCellDef> Cliente </th>
+          <td mat-cell *matCellDef="let order">{{ order.cliente }}</td>
+        </ng-container>
 
-            <ng-container matColumnDef="commercialName">
-              <th mat-header-cell *matHeaderCellDef> Comercial </th>
-              <td mat-cell *matCellDef="let order"> {{ order.comercial }} </td>
-            </ng-container>
+        <ng-container matColumnDef="commercialName">
+          <th mat-header-cell *matHeaderCellDef> Comercial </th>
+          <td mat-cell *matCellDef="let order">{{ order.comercial }}</td>
+        </ng-container>
 
-            <ng-container matColumnDef="total">
-              <th mat-header-cell *matHeaderCellDef> Total </th>
-              <td mat-cell *matCellDef="let order"> {{ order.total | currency }} </td>
-            </ng-container>
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let order">{{ order.total }}</td>
+        </ng-container>
 
-            <ng-container matColumnDef="fecha">
-              <th mat-header-cell *matHeaderCellDef> Fecha </th>
-              <td mat-cell *matCellDef="let order"> {{ order.fecha | date }} </td>
-            </ng-container>
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let order">{{ order.fecha }}</td>
+        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-        </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <div>
+        <br>
+        <br>
+        <h2>Gráfico de Serie de Tiempo (Total de Pedidos)</h2>
+        <canvas id="lineChart"></canvas>
       </div>
+      <div>
+        <br>
+        <br>
+        <h2>Gráfico de Compras por Cliente</h2>
+        <canvas id="pieChart"></canvas>
+      </div>
+
     </div>
   </div>
 </div>
-
-

@@ -28,18 +28,21 @@ export class VentasService {
 
   // Crear cliente
   async crearCliente(clienteData: any) {
+    // No incluir el ID en el clienteData
     const response = await axios.post(`${this.apiUrl}/clientes/`, clienteData);
     return response.data;
   }
 
   // Crear comercial
   async crearComercial(comercialData: any) {
+    // No incluir el ID en comercialData
     const response = await axios.post(`${this.apiUrl}/comerciales/`, comercialData);
     return response.data;
   }
 
   // Crear pedido
   async crearPedido(pedidoData: any) {
+    // No incluir el ID en pedidoData
     const response = await axios.post(`${this.apiUrl}/pedidos/`, pedidoData);
     return response.data;
   }
