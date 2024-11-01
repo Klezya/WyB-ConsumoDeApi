@@ -17,11 +17,10 @@
         Django                  5.1.2
         django-cors-headers     4.6.0
         djangorestframework     3.15.2
-        psycopg2                2.9.10 #psycopg2 o psycopg2-binary
-        psycopg2-binary         2.9.10 #psycopg2 o psycopg2-binary
+        psycopg2                2.9.10 #psycopg2-binary si esta libreria casa errores
     ```
+    
 2.  **En caso de no tener las librerias**
-
     ```bash
         pip install Django
         pip install django-cors-headers
@@ -68,7 +67,6 @@
 Con esto deberian estar todos los requisitos de la api cumplidos.
 
 4.  **Levantar la Api**
-
     ```bash
         #Desde la carpeta del repositorio (WyB-ConsumoDeApi)
         cd ventas
@@ -104,15 +102,9 @@ Con esto deberian estar todos los requisitos de la api cumplidos.
 
 ## Reemplazamos base de datos con "Supabase" en la nube
 
-Se decidio utilizar una base de datos postgres en la nube gratuita, como supabase, para tener un control y conexion centralizado sobre la base de datos, evitando problemas de conexion con la base de datos entre los integrantes del equipo.
+Se decidio utilizar una base de datos postgres en la nube gratuita, como supabase, para tener un control y conexion centralizado sobre la base de datos, evitando problemas de conexion con la base de datos entre los integrantes del equipo. Para esto se utiliza la libreria ```psycopg2```
 
-1.  **Instalar manejador de base de datos Postgres:**
-
-    ```bash
-        pip install psycopg2-binary
-    ```
-
-2.  **reemplazar constante DATABASES en 'settings.py':**
+1.  **reemplazar constante DATABASES en 'settings.py':**
 
     ```bash
         DATABASES = {
@@ -131,13 +123,7 @@ Se decidio utilizar una base de datos postgres en la nube gratuita, como supabas
 
 Para evitar conflictos con el CORS (Cross-Origin Resource Sharing) se instalo la libreria ```django-cors-headers``` y se aplicaron las siguientes modificaciones
 
-1.  **Instalar 'django-cors-headers':**
-
-    ```bash
-        python -m pip install django-cors-headers
-    ```
-
-2.  **Aplicar las configuraciones a 'settings.py':**
+1.  **Aplicar las configuraciones a 'settings.py':**
 
     ```bash
         INSTALLED_APPS = [
