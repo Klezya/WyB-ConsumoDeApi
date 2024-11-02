@@ -17,7 +17,7 @@
         Django                  5.1.2
         django-cors-headers     4.6.0
         djangorestframework     3.15.2
-        psycopg2                2.9.10 #psycopg2-binary si esta libreria casa errores
+        psycopg2                2.9.10 #psycopg2-binary si esta libreria causa errores
     ```
     
 2.  **En caso de no tener las librerias**
