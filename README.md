@@ -161,7 +161,15 @@ Para evitar conflictos con el CORS (Cross-Origin Resource Sharing) se instalo la
     ```
 
 -------------------------------------------------------
+# Decisiones Tomadas
 
+1.  Se utilizo Angular como Frontend en lugar de Django en favor de la experiencia del equipo utilizando este software, ademas de la mayor facilidad que ofrece angular para manejar vistas, asi como tailwindCSS y Boostrap
+
+2.  Se creo una sola vista llamada "Home" con todos los parametros solicitados para la solemne 2, facilitando la codificacion del proyecto.
+
+3.  Se utilizo una Base de Datos en la nube para evitar conflictos con la api/db, de esta forma el equipo se centraria solamente en la programacion y funcionamiento del Frontend
+
+-------------------------------------------------------
 ## Integrantes
 - **Nuñez Lara, Benjamin**
 - **Estay Valdivia, Vicente**
