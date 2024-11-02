@@ -142,11 +142,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   async cargarPedidos() {
     try {
-      this.orders = await this.ventasService.obtenerPedidos();
+        const pedidos = await this.ventasService.obtenerPedidos();
+        this.orders = pedidos.map((pedido: any) => {
+            // Encontrar el cliente y el comercial según el ID
+            const cliente = this.clients.find(c => c.id === pedido.cliente);
+            const comercial = this.commercials.find(c => c.id === pedido.comercial);
+
+            return {
+                ...pedido,
+                // Formato "nombre apellido1" para el cliente
+                cliente: cliente ? `${cliente.nombre} ${cliente.apellido1}` : 'N/A', 
+                // Formato "nombre apellido1" para el comercial
+                comercial: comercial ? `${comercial.nombre} ${comercial.apellido1}` : 'N/A' 
+            };
+        });
     } catch (error) {
-      this.errorMessage = 'Error al cargar los pedidos';
+        alert('Error al cargar pedidos');
     }
-  }
+}
+
 
   // Método para inicializar y actualizar gráficos
   createCharts() {
@@ -223,80 +237,83 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
       }
     });
-
+    
     // Gráfico de Compras por Cliente (Pastel)
-    this.pieChart = new Chart(ctxPie, {
-      type: 'pie',
-      data: {
-        labels: [],
-        datasets: [{
-          data: [],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(153, 102, 255, 0.6)',
-            'rgba(255, 159, 64, 0.6)'
-          ],
-          borderColor: 'rgba(200, 200, 200, 0.3)', // Color del borde
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        layout: {
-          padding: {
-            top: 40, // Espaciado superior
-            bottom: 10
-          }
+this.pieChart = new Chart(ctxPie, {
+  type: 'pie',
+  data: {
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FFCD56', '#4A90E2', '#50E3C2', '#B8E986',
+        '#E74C3C', '#9B59B6', '#3498DB', '#1ABC9C', '#2ECC71', '#F1C40F', '#E67E22', '#E91E63', '#3F51B5', '#FF5722'
+      ],
+      borderColor: 'rgba(200, 200, 200, 0.3)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    layout: {
+      padding: {
+        top: 40, // Espaciado superior
+        bottom: 10
+      }
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: 'Distribución de Compras por Cliente',
+        font: {
+          size: 20,
+          weight: 'bold'
         },
-        plugins: {
-          title: {
-            display: true,
-            text: 'Distribución de Compras por Cliente',
-            font: {
-              size: 20, // Tamaño de letra del título
-              weight: 'bold'
-            },
-            color: '#333'
+        color: '#333'
+      },
+      legend: {
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 14
           },
-          legend: {
-            position: 'bottom', // Posición de la leyenda (puede ser 'top', 'bottom', 'left', 'right')
-            labels: {
-              font: {
-                size: 14
-              },
-              color: '#555'
-            }
-          }
+          color: '#555'
         }
       }
-    });
+    }
+  }
+});
+
   }
 
   // Método para actualizar los datos de los gráficos
-  updateCharts() {
-    if (this.orders.length === 0) return;
+  // Método para actualizar los datos de los gráficos
+updateCharts() {
+  if (this.orders.length === 0) return;
 
-    const dates = this.orders.map(order => order.fecha);
-    const totals = this.orders.map(order => order.total);
+  // Ordenar los pedidos por fecha en orden ascendente
+  const sortedOrders = [...this.orders].sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
 
-    // Actualizar datos del gráfico de línea
-    this.lineChart.data.labels = dates;
-    this.lineChart.data.datasets[0].data = totals;
-    this.lineChart.update();
+  // Extraer las fechas y totales de los pedidos ordenados
+  const dates = sortedOrders.map(order => order.fecha);
+  const totals = sortedOrders.map(order => order.total);
 
-    // Actualizar datos del gráfico de pastel
-    const clientIds = [...new Set(this.orders.map(order => order.cliente))];
-    const clientTotals = clientIds.map(id =>
+  // Actualizar datos del gráfico de línea
+  this.lineChart.data.labels = dates;
+  this.lineChart.data.datasets[0].data = totals;
+  this.lineChart.update();
+
+  // Actualizar datos del gráfico de pastel
+  const clientNames = [...new Set(this.orders.map(order => order.cliente))];
+    const clientTotals = clientNames.map(name =>
       this.orders
-        .filter(order => order.cliente === id)
+        .filter(order => order.cliente === name)
         .reduce((sum, order) => sum + order.total, 0)
     );
 
-    this.pieChart.data.labels = clientIds.map(id => `Cliente ${id}`);
-    this.pieChart.data.datasets[0].data = clientTotals;
-    this.pieChart.update();
-  }
+  // Asigna solo los nombres en lugar de "Cliente Nombre"
+  this.pieChart.data.labels = clientNames;
+  this.pieChart.data.datasets[0].data = clientTotals;
+  this.pieChart.update();
+}
 }
