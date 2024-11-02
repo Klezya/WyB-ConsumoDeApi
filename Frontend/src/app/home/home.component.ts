@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   clients: any[] = [];
   commercials: any[] = [];
   errorMessage: string | null = null;
+  Message: string | null = null;
 
   lineChart: any;
   pieChart: any;
@@ -88,7 +89,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (this.clientForm.valid) {
       try {
         await this.ventasService.crearCliente(this.clientForm.value);
-        this.errorMessage = 'Cliente creado con éxito';
+        this.Message = 'Cliente creado con éxito';
         this.clientForm.reset();
         await this.cargarClientes();
       } catch (error) {
@@ -101,7 +102,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (this.commercialForm.valid) {
       try {
         await this.ventasService.crearComercial(this.commercialForm.value);
-        this.errorMessage = 'Comercial creado con éxito';
+        this.Message = 'Comercial creado con éxito';
         this.commercialForm.reset();
         await this.cargarComerciales();
       } catch (error) {
@@ -114,7 +115,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (this.orderForm.valid) {
       try {
         await this.ventasService.crearPedido(this.orderForm.value);
-        this.errorMessage = 'Pedido creado con éxito';
+        this.Message = 'Pedido creado con éxito';
         this.orderForm.reset();
         await this.cargarPedidos();
         this.updateCharts();
