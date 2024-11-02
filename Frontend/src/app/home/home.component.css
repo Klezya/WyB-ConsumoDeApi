@@ -20,3 +20,8 @@
     background-color: #a29ba0; /* Blue accent color */
     color: #fff; /* White text color */
   }
+  /* Estilos adicionales para los gráficos */
+  #lineChart, #pieChart {
+ 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
